@@ -39,8 +39,8 @@ typedef struct timer_task_t {
 } TIMER_TASK_t[TIMER_MAX_TASK_SUPPORT];
 
 /*
-Пример:
-	while (timer_loop_begin(1, 10, 5)) { // 10 * 5 = 50ms (закончить цикл после 50ms) - 10 попыток через каждые 5ms
+С•СЂРёРјРµСЂ:
+	while (timer_loop_begin(1, 10, 5)) { // 10 * 5 = 50ms (Р·Р°РєРѕРЅС‡РёС‚СЊ С†РёРєР» РїРѕСЃР»Рµ 50ms) - 10 РїРѕРїС‹С‚РѕРє С‡РµСЂРµР· РєР°Р¶РґС‹Рµ 5ms
 
 		<code here>
 

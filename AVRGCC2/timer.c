@@ -54,7 +54,7 @@ void timer_task_dispatch(byte *sp) {
 
 void timer_ISR_next_task(void) {
 
-	// сохраняем стек и выбираем следующий процесс
+	// СЃРѕС…СЂР°РЅСЏРµРј СЃС‚РµРє Рё РІС‹Р±РёСЂР°РµРј СЃР»РµРґСѓСЋС‰РёР№ РїСЂРѕС†РµСЃСЃ
 	//timer_task_stack_push((*tmr_task_d)[curr_task].context.sp);
 	(*tmr_task_d)[curr_task].p_func();
 

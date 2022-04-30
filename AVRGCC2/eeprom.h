@@ -12,7 +12,7 @@
 #define EEPROM_COMMIT_WR_IF_NOT_INIT	2
 
 #define EEPROM_BUFF_EMPTY_IDX			-1
-#define EEPROM_BUFF_SIZE				8 // (8 * 2) - 1 = 15 свободных ячеек при включенном прерывании (максимум 127)
+#define EEPROM_BUFF_SIZE				8 // (8 * 2) - 1 = 15 СЃРІРѕР±РѕРґРЅС‹С… В¤С‡РµРµРє РїСЂРё РІРєР»СЋС‡РµРЅРЅРѕРј РїСЂРµСЂС‹РІР°РЅРёРё (РјР°РєСЃРёРјСѓРј 127)
 
 #define EEPROM_ENABLE_INTERRUPT()		(EECR |= _BV(EERIE))
 #define EEPROM_DISABLE_INTERRUPT()		(EECR &= ~_BV(EERIE))
@@ -23,7 +23,7 @@ typedef byte eeprom_rw_mode_t;
 typedef struct eeprom_buff_t {
 	uint16_t addr;
 	eeprom_data_ptr_t data;
-	size_t r_size; // реальный, динамически изменяемый размер данных с учетом записи буфера
+	size_t r_size; // СЂРµР°Р»СЊРЅС‹Р№, РґРёРЅР°РјРёС‡РµСЃРєРё РёР·РјРµРЅВ¤РµРјС‹Р№ СЂР°Р·РјРµСЂ РґР°РЅРЅС‹С… СЃ СѓС‡РµС‚РѕРј Р·Р°РїРёСЃРё Р±СѓС„РµСЂР°
 } EEPROM_BUFF_t[EEPROM_BUFF_SIZE];
 
 typedef struct eeprom_stat_t {

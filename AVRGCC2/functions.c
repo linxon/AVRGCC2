@@ -411,8 +411,8 @@ bool my_strcmp(const char *s1, const char *s2) {
 	return TRUE;
 }
 
-// Пример: https://ctlsys.com/support/how_to_compute_the_modbus_rtu_message_crc/
-// полином - 16#A001 (CRC16-IBM)
+// РџСЂРёРјРµСЂ: https://ctlsys.com/support/how_to_compute_the_modbus_rtu_message_crc/
+// РїРѕР»РёРЅРѕРј - 16#A001 (CRC16-IBM)
 uint16_t crc_chk(byte *data, uint8_t length) {
 	register uint8_t i;
 	register uint16_t reg_crc = 0xFFFF;
@@ -450,7 +450,7 @@ uint8_t count_999(uint16_t value) {
 }
 
 
-// TODO: Добавить свои кастомные функции для работы со строками (попробовать оптимизировать их)
+// TODO: Р”РѕР±Р°РІРёС‚СЊ СЃРІРѕРё РєР°СЃС‚РѕРјРЅС‹Рµ С„СѓРЅРєС†РёРё РґР»СЏ СЂР°Р±РѕС‚С‹ СЃРѕ СЃС‚СЂРѕРєР°РјРё (РїРѕРїСЂРѕР±РѕРІР°С‚СЊ РѕРїС‚РёРјРёР·РёСЂРѕРІР°С‚СЊ РёС…)
 /*
 
 char *my_strtok(char *s, char delimiter) {

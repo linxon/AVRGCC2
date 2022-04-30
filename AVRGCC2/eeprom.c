@@ -52,9 +52,9 @@ void EEPROM_write(uint16_t addr, void *value, size_t size) {
 	eeprom_data_ptr_t data_ptr = (eeprom_data_ptr_t) value;
 
 	if (IS_SREG_I_ENABLED())
-		_EEPROM_buff_append(addr, data_ptr, size); // режим записи со включенным прерыванием
+		_EEPROM_buff_append(addr, data_ptr, size); // СЂРµР¶РёРј Р·Р°РїРёСЃРё СЃРѕ РІРєР»СЋС‡РµРЅРЅС‹Рј РїСЂРµСЂС‹РІР°РЅРёРµРј
 	else
-		_EEPROM_write_block(addr, data_ptr, size); // иначе пишем в лоб
+		_EEPROM_write_block(addr, data_ptr, size); // РёРЅР°С‡Рµ РїРёС€РµРј РІ Р»РѕР±
 }
 
 void EEPROM_commit(void *value, size_t size, eeprom_rw_mode_t mode) {
@@ -74,7 +74,7 @@ void EEPROM_commit(void *value, size_t size, eeprom_rw_mode_t mode) {
 
 		case EEPROM_COMMIT_WR_IF_NOT_INIT:
 			//_EEPROM_read_block(eeprom_addr, tmp_data, size);
-			/* TODO: Доработать!
+			/* TODO: Ж’РѕСЂР°Р±РѕС‚Р°С‚СЊ!
 			if (memcmp(tmp_data, data_ptr, size) == 0) {
 				*data_ptr = *tmp_data;
 			} else
@@ -90,22 +90,22 @@ void EEPROM_commit(void *value, size_t size, eeprom_rw_mode_t mode) {
 	EEPROM_set_addr(eeprom_addr + size);
 }
 
-// Эта штука будет обрабатывать буфер данных во время вызова прерывания EE_RDY_vect
+// РЃС‚Р° С€С‚СѓРєР° Р±СѓРґРµС‚ РѕР±СЂР°Р±Р°С‚С‹РІР°С‚СЊ Р±СѓС„РµСЂ РґР°РЅРЅС‹С… РІРѕ РІСЂРµРјВ¤ РІС‹Р·РѕРІР° РїСЂРµСЂС‹РІР°РЅРёВ¤ EE_RDY_vect
 void EEPROM_ISR_handler(void) {
 	_eeprom_ready = EEPROM_BUFF_IS_READY;
 
 	if (_eeprom_stat.buff_pointer > _eeprom_stat.buff_idx) {
 
-		// остались ли еще какие-нибудь данные в буфере?
+		// РѕСЃС‚Р°Р»РёСЃСЊ Р»Рё РµС‰Рµ РєР°РєРёРµ-РЅРёР±СѓРґСЊ РґР°РЅРЅС‹Рµ РІ Р±СѓС„РµСЂРµ?
 		for (register int8_t i = 0; i < _eeprom_stat.buff_idx; ++i) {
 			if (_eeprom_buff[i].r_size > 0) {
 				_eeprom_stat.buff_pointer = i;
 
-				return; // фиксируем указатель на ячейку и выходим. Ждем вызова перывания EE_RDY_vect
+				return; // С„РёРєСЃРёСЂСѓРµРј СѓРєР°Р·Р°С‚РµР»СЊ РЅР° В¤С‡РµР№РєСѓ Рё РІС‹С…РѕРґРёРј. в€†РґРµРј РІС‹Р·РѕРІР° РїРµСЂС‹РІР°РЅРёВ¤ EE_RDY_vect
 			}
 		}
 
-		// буфер пуст - останавливаем работу
+		// Р±СѓС„РµСЂ РїСѓСЃС‚ - РѕСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЂР°Р±РѕС‚Сѓ
 		_eeprom_stat.buff_idx      = EEPROM_BUFF_EMPTY_IDX;
 		_eeprom_stat.buff_idx_free = EEPROM_BUFF_EMPTY_IDX;
 		_eeprom_stat.buff_pointer  = EEPROM_BUFF_EMPTY_IDX;
@@ -130,7 +130,7 @@ void EEPROM_ISR_handler(void) {
 
 	if (*size == 0) {
 
-		// фиксируем освободившуюся ячейку (пусть _EEPROM_buff_append подхватит ее номер и заполнит данными)
+		// С„РёРєСЃРёСЂСѓРµРј РѕСЃРІРѕР±РѕРґРёРІС€СѓСЋСЃВ¤ В¤С‡РµР№РєСѓ (РїСѓСЃС‚СЊ _EEPROM_buff_append РїРѕРґС…РІР°С‚РёС‚ РµРµ РЅРѕРјРµСЂ Рё Р·Р°РїРѕР»РЅРёС‚ РґР°РЅРЅС‹РјРё)
 		if (_eeprom_stat.buff_idx_free == EEPROM_BUFF_EMPTY_IDX)
 			_eeprom_stat.buff_idx_free = _eeprom_stat.buff_pointer;
 
@@ -148,8 +148,8 @@ void _EEPROM_buff_append(uint16_t addr, void *value, size_t size) {
 	eeprom_data_ptr_t data_ptr = (eeprom_data_ptr_t) value;
 	register int8_t tmp_idx = EEPROM_BUFF_EMPTY_IDX;
 
-	if (_eeprom_stat.buff_idx >= (EEPROM_BUFF_SIZE -1)) { // если буфер переполнился
-		while (_eeprom_stat.buff_idx_free == EEPROM_BUFF_EMPTY_IDX); // ждем, когда появится свободная ячейка
+	if (_eeprom_stat.buff_idx >= (EEPROM_BUFF_SIZE -1)) { // РµСЃР»Рё Р±СѓС„РµСЂ РїРµСЂРµРїРѕР»РЅРёР»СЃВ¤
+		while (_eeprom_stat.buff_idx_free == EEPROM_BUFF_EMPTY_IDX); // Р¶РґРµРј, РєРѕРіРґР° РїРѕВ¤РІРёС‚СЃВ¤ СЃРІРѕР±РѕРґРЅР°В¤ В¤С‡РµР№РєР°
 
 		ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
 
@@ -157,7 +157,7 @@ void _EEPROM_buff_append(uint16_t addr, void *value, size_t size) {
 			_eeprom_stat.buff_idx      = (_eeprom_stat.buff_idx_free -1);
 			_eeprom_stat.buff_idx_free = EEPROM_BUFF_EMPTY_IDX;
 
-			_EEPROM_buff_append(addr, value, size); // заполняем освободившуюся ячейку
+			_EEPROM_buff_append(addr, value, size); // Р·Р°РїРѕР»РЅВ¤РµРј РѕСЃРІРѕР±РѕРґРёРІС€СѓСЋСЃВ¤ В¤С‡РµР№РєСѓ
 
 			_eeprom_stat.buff_idx = tmp_idx;
 
@@ -168,8 +168,8 @@ void _EEPROM_buff_append(uint16_t addr, void *value, size_t size) {
 
 	ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
 
-		// buff_idx - не должен быть меньше 0 , так как могут быть проблемы при переходе
-		// за границу массива и зменения там данных
+		// buff_idx - РЅРµ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РјРµРЅСЊС€Рµ 0 , С‚Р°Рє РєР°Рє РјРѕРіСѓС‚ Р±С‹С‚СЊ РїСЂРѕР±Р»РµРјС‹ РїСЂРё РїРµСЂРµС…РѕРґРµ
+		// Р·Р° РіСЂР°РЅРёС†Сѓ РјР°СЃСЃРёРІР° Рё Р·РјРµРЅРµРЅРёВ¤ С‚Р°Рј РґР°РЅРЅС‹С…
 		if (_eeprom_stat.buff_idx == EEPROM_BUFF_EMPTY_IDX)
 			_eeprom_stat.buff_idx++;
 		else if (_eeprom_stat.buff_idx < (EEPROM_BUFF_SIZE -1))
@@ -180,7 +180,7 @@ void _EEPROM_buff_append(uint16_t addr, void *value, size_t size) {
 		_eeprom_buff[_eeprom_stat.buff_idx].r_size = size;
 
 		if (_eeprom_ready == EEPROM_BUFF_IS_READY)
-			EEPROM_ENABLE_INTERRUPT(); // включаем обработку EE_RDY_vect
+			EEPROM_ENABLE_INTERRUPT(); // РІРєР»СЋС‡Р°РµРј РѕР±СЂР°Р±РѕС‚РєСѓ EE_RDY_vect
 	}
 }
 

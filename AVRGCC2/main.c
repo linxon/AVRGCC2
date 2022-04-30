@@ -174,6 +174,7 @@ void main(void) {
 
 void init_me(void) {
 	cli();
+	wdt_disable();
 	ACSR |= _BV(ACD);
 
 	// Сигнальные пины (На реле)

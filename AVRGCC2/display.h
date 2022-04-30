@@ -4,7 +4,7 @@
 #include "typedef.h"
 #include "i2c.h"
 
-// регистр данных
+// СЂРµРіРёСЃС‚СЂ РґР°РЅРЅС‹С…
 #define LCD_DB0					0
 #define LCD_DB1					1
 #define LCD_DB2					2
@@ -14,7 +14,7 @@
 #define LCD_DB6					6
 #define LCD_DB7					7
 
-// регистр команд (entry mode)
+// СЂРµРіРёСЃС‚СЂ РєРѕРјР°РЅРґ (entry mode)
 #define LCD_CLEAR_MASK			0x01
 #define LCD_RET_HOME_MASK		0x02
 #define LCD_ENTRY_MODE_MASK		0x04
@@ -24,7 +24,7 @@
 #define LCD_CGRAM_MASK			0x40
 #define LCD_DDRAM_MASK			0x80
 
-// функции (function set)
+// С„СѓРЅРєС†РёРё (function set)
 #define LCD_8BIT_BUS_MASK		0x10
 #define LCD_4BIT_BUS_MASK		0x00
 #define LCD_2LINE_MASK			0x08
@@ -32,27 +32,27 @@
 #define LCD_5X10DOTS_MASK		0x04
 #define LCD_5X8DOTS_MASK		0x00
 
-// управление дисплеем
+// СѓРїСЂР°РІР»РµРЅРёРµ РґРёСЃРїР»РµРµРј
 #define LCD_DISPLAY_CURSOR_ON	0x02
 #define LCD_DISPLAY_CUR_BLINK   0x01
 
-// команды управления
-#define LCD_RS_CMD_MASK			0x00 // регистр команд
-#define LCD_RS_DATA_MASK		0x01 // регистр данных
+// РєРѕРјР°РЅРґС‹ СѓРїСЂР°РІР»РµРЅРёСЏ
+#define LCD_RS_CMD_MASK			0x00 // СЂРµРіРёСЃС‚СЂ РєРѕРјР°РЅРґ
+#define LCD_RS_DATA_MASK		0x01 // СЂРµРіРёСЃС‚СЂ РґР°РЅРЅС‹С…
 #define LCD_RW_MASK				0x02
 #define LCD_EN_MASK				0x04
 
 #define LCD_BACKLIGHT			0x08
 
-// настройки ввода
+// РЅР°СЃС‚СЂРѕР№РєРё РІРІРѕРґР°
 typedef enum {
 	LCD_ENTRY_MODE_INC,
 	LCD_ENTRY_MODE_DEC,
 	LCD_ENTRY_MODE_SHIFT_LEFT,
-	LCD_ENTRY_MODE_SHIFT_RIGHT // Когда
+	LCD_ENTRY_MODE_SHIFT_RIGHT // РљРѕРіРґР°
 } LCD_ENTRY_MODE_t; // __attribute__((packed))
 
-// настройки дисплея
+// РЅР°СЃС‚СЂРѕР№РєРё РґРёСЃРїР»РµСЏ
 typedef enum {
 	LCD_DISPLAY_ON,
 	LCD_DISPLAY_OFF,
@@ -74,12 +74,12 @@ typedef enum {
 typedef struct lcd_conf_t {
 	struct twi_conf_t twi;
 
-	// настройки разрешения экрана
+	// РЅР°СЃС‚СЂРѕР№РєРё СЂР°Р·СЂРµС€РµРЅРёСЏ СЌРєСЂР°РЅР°
 	uint8_t cols;
 	uint8_t rows;
 	byte row_addr_table[4];
 
-	// флаговые регистры
+	// С„Р»Р°РіРѕРІС‹Рµ СЂРµРіРёСЃС‚СЂС‹
 	byte display_ctrl_reg;
 	byte cursor_shift_reg;
 	byte function_set_reg;

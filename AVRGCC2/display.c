@@ -2,25 +2,25 @@
 
 LCD_CONFIG_t lcd_cfg = {
 	.twi = {
-		.addr = 0x27, // адрес по умолчанию
+		.addr = 0x27, // Р°РґСЂРµСЃ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 		.freq = 0x48, // 100kHz = 16000000 / (16 + 2 * 72 * 1)
 	},
 
 	.cols = 16,
 	.rows = 2,
 
-	// Конфигурация для 1602 и 1604:
-	//		0x00 - адрес 1-й строки дисплея
-	//		0x40 - адрес 2-й строки
-	//		0x14 - 3-й строки
-	//		0x54 - 4-й строки
-	.row_addr_table = { 0x00, 0x40, 0x14, 0x54 }, // TODO: добавить поддержку 1601
+	// РљРѕРЅС„РёРіСѓСЂР°С†РёСЏ РґР»СЏ 1602 Рё 1604:
+	//		0x00 - Р°РґСЂРµСЃ 1-Р№ СЃС‚СЂРѕРєРё РґРёСЃРїР»РµСЏ
+	//		0x40 - Р°РґСЂРµСЃ 2-Р№ СЃС‚СЂРѕРєРё
+	//		0x14 - 3-Р№ СЃС‚СЂРѕРєРё
+	//		0x54 - 4-Р№ СЃС‚СЂРѕРєРё
+	.row_addr_table = { 0x00, 0x40, 0x14, 0x54 }, // TODO: РґРѕР±Р°РІРёС‚СЊ РїРѕРґРґРµСЂР¶РєСѓ 1601
 
-	// настройки дисплея по умолчанию
+	// РЅР°СЃС‚СЂРѕР№РєРё РґРёСЃРїР»РµСЏ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 	.display_ctrl_reg = LCD_DISPLAY_CTRL_MASK
-			| (1 << LCD_DB2)  // включаем дисплей
-			| (1 << LCD_DB1)  // включаем курсор
-			| (1 << LCD_DB0), // включаем мигание курсора
+			| (1 << LCD_DB2)  // РІРєР»СЋС‡Р°РµРј РґРёСЃРїР»РµР№
+			| (1 << LCD_DB1)  // РІРєР»СЋС‡Р°РµРј РєСѓСЂСЃРѕСЂ
+			| (1 << LCD_DB0), // РІРєР»СЋС‡Р°РµРј РјРёРіР°РЅРёРµ РєСѓСЂСЃРѕСЂР°
 	.function_set_reg = LCD_FUNCTION_SET_MASK
 			| LCD_4BIT_BUS_MASK
 			| LCD_2LINE_MASK
@@ -29,7 +29,7 @@ LCD_CONFIG_t lcd_cfg = {
 			| ~(1 << LCD_DB0)
 			| (1 << LCD_DB1),
 
-	._blacklight = LCD_BACKLIGHT // используется в основной команде при отправке
+	._blacklight = LCD_BACKLIGHT // РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ РѕСЃРЅРѕРІРЅРѕР№ РєРѕРјР°РЅРґРµ РїСЂРё РѕС‚РїСЂР°РІРєРµ
 };
 
 void lcd_init(byte addr, uint8_t cols, uint8_t rows) {
@@ -39,9 +39,9 @@ void lcd_init(byte addr, uint8_t cols, uint8_t rows) {
 
 	twi_init(&lcd_cfg.twi);
 
-	_delay_ms(50); // дадим дисплею прочухаться после первого включения
+	_delay_ms(50); // РґР°РґРёРј РґРёСЃРїР»РµСЋ РїСЂРѕС‡СѓС…Р°С‚СЊСЃСЏ РїРѕСЃР»Рµ РїРµСЂРІРѕРіРѕ РІРєР»СЋС‡РµРЅРёСЏ
 
-	// для установки режима передачи нужно отправить особый сигнал
+	// РґР»СЏ СѓСЃС‚Р°РЅРѕРІРєРё СЂРµР¶РёРјР° РїРµСЂРµРґР°С‡Рё РЅСѓР¶РЅРѕ РѕС‚РїСЂР°РІРёС‚СЊ РѕСЃРѕР±С‹Р№ СЃРёРіРЅР°Р»
 	_twi_lcd_write(0x03 << LCD_DB4);
 	_delay_us(4500);
 	_twi_lcd_write(0x03 << LCD_DB4);
@@ -49,7 +49,7 @@ void lcd_init(byte addr, uint8_t cols, uint8_t rows) {
 	_twi_lcd_write(0x03 << LCD_DB4);
 	_delay_us(150);
 
-	_twi_lcd_write(0x02 << LCD_DB4); // ставим 4bit bus режим
+	_twi_lcd_write(0x02 << LCD_DB4); // СЃС‚Р°РІРёРј 4bit bus СЂРµР¶РёРј
 
 	lcd_send(lcd_cfg.function_set_reg, LCD_RS_CMD_MASK);
 	lcd_send(lcd_cfg.display_ctrl_reg, LCD_RS_CMD_MASK);
@@ -77,19 +77,19 @@ void lcd_send(byte data, byte mode) {
 	_twi_lcd_write(((data << LCD_DB4) & 0xF0) | mode);
 }
 
-// очистка экрана
+// РѕС‡РёСЃС‚РєР° СЌРєСЂР°РЅР°
 void lcd_clear(void) {
 	lcd_send(LCD_CLEAR_MASK, LCD_RS_CMD_MASK);
 	_delay_ms(2);
 }
 
-// возврат в начальное положение курсора (данные в DDRAM при этом сохраняются)
+// РІРѕР·РІСЂР°С‚ РІ РЅР°С‡Р°Р»СЊРЅРѕРµ РїРѕР»РѕР¶РµРЅРёРµ РєСѓСЂСЃРѕСЂР° (РґР°РЅРЅС‹Рµ РІ DDRAM РїСЂРё СЌС‚РѕРј СЃРѕС…СЂР°РЅСЏСЋС‚СЃСЏ)
 void lcd_return_home(void) {
 	lcd_send(LCD_RET_HOME_MASK, LCD_RS_CMD_MASK);
 	_delay_ms(2);
 }
 
-// выбор режима ввода
+// РІС‹Р±РѕСЂ СЂРµР¶РёРјР° РІРІРѕРґР°
 void lcd_entry_mode(LCD_ENTRY_MODE_t mode) {
 	if (mode == LCD_ENTRY_MODE_INC)
 		lcd_cfg.function_set_reg |= (1 << LCD_DB1);
@@ -165,7 +165,7 @@ void lcd_cursor_setup(LCD_CURSOR_t mode) {
 }
 
 void lcd_cursor(uint8_t col, uint8_t row) {
-	// курсор не должен уходить за пределы формата экрана
+	// РєСѓСЂСЃРѕСЂ РЅРµ РґРѕР»Р¶РµРЅ СѓС…РѕРґРёС‚СЊ Р·Р° РїСЂРµРґРµР»С‹ С„РѕСЂРјР°С‚Р° СЌРєСЂР°РЅР°
 	if (row > lcd_cfg.rows)
 		row = lcd_cfg.rows;
 	if (col > lcd_cfg.cols)
@@ -180,7 +180,7 @@ void lcd_print(const char *s) {
 }
 
 void lcd_set_val(const char *v, uint8_t reserve, uint8_t col, uint8_t row) {
-	// сбрасываем прежнее значение на экране
+	// СЃР±СЂР°СЃС‹РІР°РµРј РїСЂРµР¶РЅРµРµ Р·РЅР°С‡РµРЅРёРµ РЅР° СЌРєСЂР°РЅРµ
 	lcd_cursor(col, row);
 	for (uint8_t i = 0; i < reserve; i++)
 		lcd_send(0x20, LCD_RS_DATA_MASK);
@@ -189,7 +189,7 @@ void lcd_set_val(const char *v, uint8_t reserve, uint8_t col, uint8_t row) {
 	lcd_print(v);
 }
 
-// чуть позже нужно добавить поддержку меню
+// С‡СѓС‚СЊ РїРѕР·Р¶Рµ РЅСѓР¶РЅРѕ РґРѕР±Р°РІРёС‚СЊ РїРѕРґРґРµСЂР¶РєСѓ РјРµРЅСЋ
 //void display_menu(display_menu_opts_t menu) {
 //	;
 //}

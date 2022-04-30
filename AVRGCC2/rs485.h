@@ -27,10 +27,10 @@
 #define RS485_STAT_REPEAT_PACKET			0x99
 #define RS485_STAT_STOP_PACKET				0x66
 
-#if USART_BAUDRATE == 9600 // для других скоростей нужны другие тайминги!
-#define RS485_RW_TIMEOUT_ATTEMPT_COUNT		50 // 50 * 5ms = 250ms (50 попыток по 5ms каждый)
-#define RS485_RW_TIMEOUT_DELAY_MS			5  // 4.20ms - минимум при передаче 5-ти байтов на 9600 бод
-#define RS485_PROTO_TIMEOUT_ATTEMPT_COUNT	10 // 10 * 50us = 500us (10 попыток по 500us+250ms каждый)
+#if USART_BAUDRATE == 9600 // РґР»СЏ РґСЂСѓРіРёС… СЃРєРѕСЂРѕСЃС‚РµР№ РЅСѓР¶РЅС‹ РґСЂСѓРіРёРµ С‚Р°Р№РјРёРЅРіРё!
+#define RS485_RW_TIMEOUT_ATTEMPT_COUNT		50 // 50 * 5ms = 250ms (50 РїРѕРїС‹С‚РѕРє РїРѕ 5ms РєР°Р¶РґС‹Р№)
+#define RS485_RW_TIMEOUT_DELAY_MS			5  // 4.20ms - РјРёРЅРёРјСѓРј РїСЂРё РїРµСЂРµРґР°С‡Рµ 5-С‚Рё Р±Р°Р№С‚РѕРІ РЅР° 9600 Р±РѕРґ
+#define RS485_PROTO_TIMEOUT_ATTEMPT_COUNT	10 // 10 * 50us = 500us (10 РїРѕРїС‹С‚РѕРє РїРѕ 500us+250ms РєР°Р¶РґС‹Р№)
 #define RS485_PROTO_TIMEOUT_DELAY_US		50
 #else
 #warning "BAUDRATE ERR"
@@ -64,9 +64,9 @@ typedef volatile struct rs485_buff_t {
 } RS485_TX_BUFF_t, RS485_RX_BUFF_t;
 
 typedef struct rs485_data_t {
-	byte addr;		    // адрес Slave/Master устройства
-	uint16_t data;      // данные, передаваемые устройству
-	uint16_t crc16;		// хеш-сумма
+	byte addr;		    // Р°РґСЂРµСЃ Slave/Master СѓСЃС‚СЂРѕР№СЃС‚РІР°
+	uint16_t data;      // РґР°РЅРЅС‹Рµ, РїРµСЂРµРґР°РІР°РµРјС‹Рµ СѓСЃС‚СЂРѕР№СЃС‚РІСѓ
+	uint16_t crc16;		// С…РµС€-СЃСѓРјРјР°
 } RS485_TX_t, RS485_RX_t;
 
 extern void rs485_init(struct rs485_cfg_t *);

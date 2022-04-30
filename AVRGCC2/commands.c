@@ -42,7 +42,7 @@ void cmd_ISR_handler(void) {
 #endif
 
 		_cmd_res = _cmd_handler(cmd);
-		// TODO: добавить обработчик для _cmd_res
+		// TODO: РґРѕР±Р°РІРёС‚СЊ РѕР±СЂР°Р±РѕС‚С‡РёРє РґР»СЏ _cmd_res
 
 		cmd_index = 0;
 		cmd[cmd_index] = '\0';

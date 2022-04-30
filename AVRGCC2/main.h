@@ -11,7 +11,7 @@
 
 #include "typedef.h"
 
-// Модули
+// РњРѕРґСѓР»Рё
 //#include "usart.h"
 //#include "eeprom.h"
 #include "rs485.h"

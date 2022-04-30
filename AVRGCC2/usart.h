@@ -8,7 +8,7 @@
 #define USART_BAUDRATE				9600UL
 #define USART_SCALED_UBRR			(F_CPU / (USART_BAUDRATE * 16UL) -1)
 
-#define USART_DATA_REG				UDR	// используется в другим модулях, поэтому дадим этому регистру абстрактное имя
+#define USART_DATA_REG				UDR	// РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ РґСЂСѓРіРёРј РјРѕРґСѓР»СЏС…, РїРѕСЌС‚РѕРјСѓ РґР°РґРёРј СЌС‚РѕРјСѓ СЂРµРіРёСЃС‚СЂСѓ Р°Р±СЃС‚СЂР°РєС‚РЅРѕРµ РёРјСЏ
 
 #define USART_CLEAR_RXC_FLAG()		(UCSRA |= _BV(RXC))
 #define USART_CLEAR_TXC_FLAG()		(UCSRA |= _BV(TXC))
